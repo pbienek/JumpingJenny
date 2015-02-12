@@ -1,5 +1,5 @@
 /**
- * Created by Peter on 08/02/2015.
+ * Created by Peter Bienek on 08/02/2015.
  */
 $.player = {
 

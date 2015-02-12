@@ -35,6 +35,7 @@ preload.prototype = {
 
         //MENUS
         this.game.load.image("play","assets/play.png");
+        this.game.load.image("fullscreen","assets/fullscreen.png");
         this.game.load.image('gameover', 'assets/gameover.png');
 
         //SCENERY
@@ -65,9 +66,14 @@ preload.prototype = {
 titleScreen.prototype = {
 
     create: function(){
-        var playButton = this.game.add.button(160,320,"play",this.startPlaying, this);
+        var playButton = this.game.add.button(480,220,"play",this.startPlaying, this);
         playButton.anchor.setTo(0.5,0.5);
-        this.game.state.start("TheGame");
+
+
+        var fs_button = this.game.add.button(480,420,"fullscreen",this.fullScreen, this);
+        fs_button.anchor.setTo(0.5,0.5);
+
+        //this.game.state.start("TheGame");
     },
 
 
@@ -88,18 +94,14 @@ theGame.prototype = {
 
 
     create : function(){
-
         $.world.create();
         $.player.create();
-
     },
 
 
     update : function(){
-
         $.world.update();
         $.player.update();
-
     },
 
 
@@ -121,7 +123,7 @@ gameOver.prototype = {
 
         var playButton = this.game.add.button(160,320,"play",this.playTheGame,this);
         playButton.anchor.setTo(0.5,0.5);
-        this.game.state.start("TheGame");
+        //this.game.state.start("TheGame");
 
 
     },

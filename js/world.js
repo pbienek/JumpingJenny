@@ -156,7 +156,7 @@ $.world = {
 
         //check for player item overlap
         if($.game.physics.arcade.overlap(this.obstacles, $.player.image)){
-           // $.game.state.start("GameOver");
+            $.game.state.start("GameOver");
         }
 
         //Paralex backgrounds
