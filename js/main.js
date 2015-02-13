@@ -34,6 +34,7 @@ preload.prototype = {
         this.load.setPreloadSprite(loadingBar);
 
         //MENUS
+        this.game.load.image("home","assets/home_screen.png");
         this.game.load.image("play","assets/play.png");
         this.game.load.image("fullscreen","assets/fullscreen.png");
         this.game.load.image('gameover', 'assets/gameover.png');
@@ -49,10 +50,19 @@ preload.prototype = {
         this.game.load.image('cat', 'assets/cat.png');
 
         //ITEMS _ POSITIVE
-        this.game.load.image('star', 'assets/positive-item.png');
+        this.game.load.image('chocolate', 'assets/chocolate.png');
+        this.game.load.image('tea', 'assets/tea.png');
 
         //PLAYER
         this.game.load.spritesheet('player', 'assets/player_sprite.png', 145, 190, 10);
+
+        //Particles
+        this.game.load.image('heart', 'assets/heart.png');
+
+
+        //FONTS
+        this.game.load.bitmapFont('valentines', 'assets/valentines.png', 'assets/valentines.xml');
+
     },
 
     create: function(){
@@ -66,11 +76,16 @@ preload.prototype = {
 titleScreen.prototype = {
 
     create: function(){
-        var playButton = this.game.add.button(480,220,"play",this.startPlaying, this);
+
+        $.game.add.sprite(0, 0, 'home');
+
+
+        var playButton = this.game.add.button(600,360,"play",this.startPlaying, this);
         playButton.anchor.setTo(0.5,0.5);
+        $.game.add.tween(playButton).to({ y: 340 }, 2000, Phaser.Easing.Quadratic.InOut, true, 0, 1000, true);
 
 
-        var fs_button = this.game.add.button(480,420,"fullscreen",this.fullScreen, this);
+        var fs_button = this.game.add.button(600,510,"fullscreen",this.fullScreen, this);
         fs_button.anchor.setTo(0.5,0.5);
 
         //this.game.state.start("TheGame");
@@ -118,14 +133,15 @@ theGame.prototype = {
 gameOver.prototype = {
 
     create: function(){
-        var gameOverTitle = this.game.add.sprite(160,160,"gameover");
-        gameOverTitle.anchor.setTo(0.5,0.5);
+        var gameOverTitle = this.game.add.sprite(0,0,"gameover");
 
-        var playButton = this.game.add.button(160,320,"play",this.playTheGame,this);
+        var playButton = this.game.add.button(480,530,"play",this.playTheGame,this);
         playButton.anchor.setTo(0.5,0.5);
         //this.game.state.start("TheGame");
 
+        console.log($.player)
 
+        var score = $.game.add.bitmapText(560, 282, 'valentines', $.player.points.toString());
     },
     playTheGame: function(){
         this.game.state.start("TheGame");
@@ -167,6 +183,7 @@ $.game.state.start("Boot");
 
 
 //TODO: Add ducking game mechanic
+//TODO: Credit must be given to kiririn & habeastibi for heart pattern
 
 
 

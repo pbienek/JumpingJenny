@@ -41,6 +41,12 @@ $.world = {
         this.gift_items.enableBody = true;
 
         this.stats();
+
+
+        this.emitter = $.game.add.emitter(0, 0, 100);
+        this.emitter.makeParticles('heart');
+        this.emitter.gravity = 200;
+
     },
 
 
@@ -48,11 +54,7 @@ $.world = {
     stats : function(){
 
 
-        this.score = $.game.add.text(800, 30, "SCORE: 0", {
-            font: "20px Arial",
-            fill: "#fff",
-            align: "left"
-        });
+        this.score = $.game.add.bitmapText(700, 30, 'valentines', "score: 0");
 
 
     },
@@ -76,7 +78,11 @@ $.world = {
                 type : 'negative'
             },
             {
-                name : 'star',
+                name : 'chocolate',
+                type : 'positive'
+            },
+            {
+                name : 'tea',
                 type : 'positive'
             }
         ];
@@ -130,7 +136,7 @@ $.world = {
                 var x = Math.round(Math.random());
 
                 if(x){
-                    item_list.push(randomNumberGen(1,3));
+                    item_list.push(randomNumberGen(1,4));
                 }
                 else {
 
@@ -175,30 +181,61 @@ $.world = {
 
 
 
-
-        deleteWastage(obstacle);
-        deleteWastage(gift);
-
-        function deleteWastage(item){
-
-
-            if(item != null){
-
-                //Delete items when they are off screen
-                if(item.x < -item.width){
-                    item.destroy();
-                }
-
-                //Add points as soon as player jumps item
-                if((item.x + item.width) < $.player.image.x && !item.points_awarded){
-                    item.points_awarded = true;
-                    $.player.points += 10;
-                    $.world.score.setText("SCORE: "+$.player.points);
-                }
-
+        if(obstacle != null){
+            //Delete obstacle when they are off screen
+            if(obstacle.x < -obstacle.width){
+                obstacle.destroy();
             }
 
+
+
+            //Add points as soon as player jumps over teh obstacle
+            if((obstacle.x + obstacle.width) < $.player.image.x && !obstacle.points_awarded){
+                obstacle.points_awarded = true;
+                $.player.points += 10;
+                $.world.score.setText("score: "+$.player.points);
+            }
         }
+
+        if(gift !== null){
+            //Delete obstacle when they are off screen
+            if(gift.x < -gift.width){
+                gift.destroy();
+            }
+        }
+
+        this.gift_items.forEach(function(item) {
+
+
+            if($.game.physics.arcade.overlap(item, $.player.image)){
+                //delete item
+                item.destroy();
+
+                //award points
+                $.player.points += 50;
+                $.world.score.setText("score: "+$.player.points);
+
+                //create particle effect
+                this.emitter.x = item.x;
+                this.emitter.y = item.y;
+
+                //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+                //  The second gives each particle a 2000ms lifespan
+                //  The third is ignored when using burst/explode mode
+                //  The final parameter (10) is how many particles will be emitted in this single burst
+                this.emitter.start(true, 2000, null, 10);
+            }
+
+
+        }, this);
+
+
+
+
+        //Fade out particles
+        this.emitter.forEachAlive(function(p){
+            p.alpha = (p.lifespan / $.world.emitter.lifespan);
+        });
 
 
     },
