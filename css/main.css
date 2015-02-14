@@ -1,5 +1,9 @@
-#game_container {
-    display: block;
-    margin:50px auto;
-    width: 960px;
+
+@media (min-width: 960px) {
+    #game_container {
+        display: block;
+        margin: 50px auto;
+        width: 960px;
+    }
 }
+

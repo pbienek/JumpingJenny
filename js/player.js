@@ -4,7 +4,8 @@
 $.player = {
 
 
-    jump_timer : 0,
+
+    beaten_best : false,
 
 
     preload : function(){

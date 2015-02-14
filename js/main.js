@@ -29,7 +29,7 @@ preload.prototype = {
 
     preload: function(){
         //LOADING SCREEN
-        var loadingBar = this.add.sprite(160,240,"loading");
+        var loadingBar = this.add.sprite(480,300,"loading");
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
 
@@ -48,10 +48,12 @@ preload.prototype = {
         //ITEMS - NEGATIVE
         this.game.load.image('poop', 'assets/poop.png');
         this.game.load.image('cat', 'assets/cat.png');
+        this.game.load.image('spider', 'assets/spider.png');
 
         //ITEMS _ POSITIVE
         this.game.load.image('chocolate', 'assets/chocolate.png');
         this.game.load.image('tea', 'assets/tea.png');
+        this.game.load.image('cake', 'assets/cake.png');
 
         //PLAYER
         this.game.load.spritesheet('player', 'assets/player_sprite.png', 145, 190, 10);
@@ -62,6 +64,13 @@ preload.prototype = {
 
         //FONTS
         this.game.load.bitmapFont('valentines', 'assets/valentines.png', 'assets/valentines.xml');
+
+
+
+        //SOUNDS
+        this.game.load.audio('item', 'assets/item_sound.wav');
+        this.game.load.audio('bested', 'assets/best_score_sound.wav');
+
 
     },
 
@@ -139,9 +148,18 @@ gameOver.prototype = {
         playButton.anchor.setTo(0.5,0.5);
         //this.game.state.start("TheGame");
 
-        console.log($.player)
+        var b_score =  localStorage.getItem("jlj_best_score") || 0;
 
-        var score = $.game.add.bitmapText(560, 282, 'valentines', $.player.points.toString());
+
+
+        var score = $.game.add.bitmapText(560, 295, 'valentines', $.player.points.toString());
+        var best_score = $.game.add.bitmapText(560, 385, 'valentines', $.world.best_score.toString());
+
+
+        if($.player.points > b_score){
+
+            localStorage.setItem("jlj_best_score", $.player.points)
+        }
     },
     playTheGame: function(){
         this.game.state.start("TheGame");
@@ -165,25 +183,20 @@ $.game.state.start("Boot");
 
 
 
-//TODO: Improve item placement algorithm
-//IDEA: call spawn function when there are no items left then place multiples according to a grid structure
-//use arrays
-//TODO: Add sprites for player
-//TODO: Add item images
-//TODO: Add positive items
-//TODO: Improve leveling system
+//DONE: Improve item placement algorithm
+//DONE: Add sprites for player
+//DONE: Add item images
+//DONE: Add positive items
+//DONE: Improve leveling system
 
 
-
-
-
-//TODO: Create screens for loading, title and game over states
-//TODO: Add animations when you get a positive item
-//TODO: Record and display top score
+//DONE: Create screens for loading, title and game over states
+//DONE: Add animations when you get a positive item
+//DONE: Record and display top score
 
 
 //TODO: Add ducking game mechanic
-//TODO: Credit must be given to kiririn & habeastibi for heart pattern
+//TODO: Credit must be given to kiririn & habeastibi for heart pattern used on title screen
 
 
 

@@ -47,15 +47,18 @@ $.world = {
         this.emitter.makeParticles('heart');
         this.emitter.gravity = 200;
 
+        this.item_sound = $.game.add.audio('item');
+        this.bested = $.game.add.audio('bested');
+
     },
 
 
 
     stats : function(){
 
-
+        this.best_score = localStorage.getItem("jlj_best_score") || 0;
+        this.best_score_display = $.game.add.bitmapText(30, 30, 'valentines', "best: " + this.best_score);
         this.score = $.game.add.bitmapText(700, 30, 'valentines', "score: 0");
-
 
     },
 
@@ -78,11 +81,19 @@ $.world = {
                 type : 'negative'
             },
             {
+                name : 'spider',
+                type : 'negative'
+            },
+            {
                 name : 'chocolate',
                 type : 'positive'
             },
             {
                 name : 'tea',
+                type : 'positive'
+            },
+            {
+                name : 'cake',
                 type : 'positive'
             }
         ];
@@ -136,7 +147,7 @@ $.world = {
                 var x = Math.round(Math.random());
 
                 if(x){
-                    item_list.push(randomNumberGen(1,4));
+                    item_list.push(randomNumberGen(1,6));
                 }
                 else {
 
@@ -187,8 +198,6 @@ $.world = {
                 obstacle.destroy();
             }
 
-
-
             //Add points as soon as player jumps over teh obstacle
             if((obstacle.x + obstacle.width) < $.player.image.x && !obstacle.points_awarded){
                 obstacle.points_awarded = true;
@@ -214,6 +223,7 @@ $.world = {
                 //award points
                 $.player.points += 50;
                 $.world.score.setText("score: "+$.player.points);
+                $.world.item_sound.play();
 
                 //create particle effect
                 this.emitter.x = item.x;
@@ -229,6 +239,15 @@ $.world = {
 
         }, this);
 
+
+
+        if($.player.points > $.world.best_score && !$.player.beaten_best){
+
+
+            $.player.beaten_best = true;
+            $.world.bested.play();
+
+        }
 
 
 
