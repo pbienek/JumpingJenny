@@ -8,6 +8,8 @@ $.player = {
     beaten_best : false,
 
 
+
+
     preload : function(){
 
 
@@ -23,9 +25,9 @@ $.player = {
 
         this.image.animations.add('run', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
 
-
         this.image.animations.play('run');
 
+        this.downward_gravity = 3500;
 
 
         $.game.physics.arcade.enable(this.image);
@@ -116,7 +118,7 @@ $.player = {
 
         //Increase gravity if falling
         if($.player.image.body.velocity.y > 0){
-            this.image.body.gravity.y = 3800;
+            this.image.body.gravity.y = this.downward_gravity;
         }
         //Otherwise we're jumping
         else {

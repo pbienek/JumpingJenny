@@ -19,6 +19,8 @@ $.world = {
         this.ground_speed   = 3.3;
         this.bush_speed     = 1.2;
         this.current_level  = 1;
+        this.spacing        = 390;
+
 
 
         $.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -74,8 +76,16 @@ $.world = {
                 type : null
             },
             {
-                name : 'cat',
-                type : 'negative'
+                name : 'tea',
+                type : 'positive'
+            },
+            {
+                name : 'cake',
+                type : 'positive'
+            },
+            {
+                name : 'chocolate',
+                type : 'positive'
             },
             {
                 name : 'poop',
@@ -86,17 +96,10 @@ $.world = {
                 type : 'negative'
             },
             {
-                name : 'chocolate',
-                type : 'positive'
-            },
-            {
-                name : 'tea',
-                type : 'positive'
-            },
-            {
-                name : 'cake',
-                type : 'positive'
+                name : 'cat',
+                type : 'negative'
             }
+
         ];
 
 
@@ -108,7 +111,7 @@ $.world = {
 
             if(item_name !== null){
 
-                var spacing        = (350 + ($.world.current_level * 15));
+                var spacing        = $.world.spacing;
                 var x_position     = (960 + (i * spacing));
 
                 if(items[placements[i]].type === 'negative'){
@@ -145,16 +148,22 @@ $.world = {
 
             while(list_lng--){
 
-                var x = Math.round(Math.random());
+                var x = Math.random();
 
-                if(x){
-                    item_list.push(randomNumberGen(1,6));
+                if(x < 0.4){
+                    item_list.push(randomNumberGen(4,6));
+                } else {
+
+                    if(x > 0.4 && x < 0.8) {
+                        item_list.push(0);
+                    }
+                    else {
+                        item_list.push(randomNumberGen(1,3));
+                    }
+
+
                 }
-                else {
 
-                    item_list.push(0);
-
-                }
             }
 
             return item_list;
@@ -266,15 +275,20 @@ $.world = {
     level_up : function(){
 
 
-        if(this.speed > -1000){
-            this.speed       -= 30;
+        if(this.speed > -1500){
+            this.speed       -= 50;
             this.current_level++;
 
             this.ground_speed = (Math.abs(this.speed) / 60.6);
             this.bush_speed = (Math.abs(this.speed) / 166.6);
+            $.player.downward_gravity += 30;
+
+
+            this.spacing = (350 + ($.world.current_level * 40));
+
         }
 
-        console.log(this.speed)
+        console.log('SPEED:',this.speed);
 
     }
 
