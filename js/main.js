@@ -70,6 +70,7 @@ preload.prototype = {
         //SOUNDS
         this.game.load.audio('item', 'assets/item_sound.wav');
         this.game.load.audio('bested', 'assets/best_score_sound.wav');
+        this.game.load.audio('game_over', 'assets/game_over.wav');
 
 
     },

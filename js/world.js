@@ -49,6 +49,7 @@ $.world = {
 
         this.item_sound = $.game.add.audio('item');
         this.bested = $.game.add.audio('bested');
+        this.go_sound = $.game.add.audio('game_over');
 
     },
 
@@ -173,6 +174,7 @@ $.world = {
 
         //check for player item overlap
         if($.game.physics.arcade.overlap(this.obstacles, $.player.image)){
+            this.go_sound.play()
             $.game.state.start("GameOver");
         }
 
